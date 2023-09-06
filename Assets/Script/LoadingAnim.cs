@@ -7,4 +7,9 @@ public class LoadingAnim : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
+    
+    public void LoadingSceneMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

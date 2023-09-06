@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class BallonClick : MonoBehaviour
+public class BattonClick : MonoBehaviour
 {
     [SerializeField] private GameObject _bomb;
     [SerializeField] private GameObject _money;
     [SerializeField] private GameObject _ballonBlue;
     [SerializeField] private GameObject _ballonOranje;
     [SerializeField] private GameObject _ballonRed;
+
+    [SerializeField] private AudioSource _audioSource;
 
     public void ClickRandomBlue()
     {
@@ -19,17 +21,20 @@ public class BallonClick : MonoBehaviour
         if (randomMoney == 8 || randomMoney == 4)
         {
             _money.SetActive(true);
+            _audioSource.Play();
             _ballonBlue.SetActive(false);
         }
 
         else if (randomBomb == 1)
         {
             _bomb.SetActive(true);
+            _audioSource.Play();
             _ballonBlue.SetActive(false);
         }
 
         else
         {
+            _audioSource.Play();
             _ballonBlue.SetActive(false);
         }
     }
@@ -42,17 +47,20 @@ public class BallonClick : MonoBehaviour
         if (randomMoney == 8 || randomMoney == 4)
         {
             _money.SetActive(true);
+            _audioSource.Play();
             _ballonOranje.SetActive(false);
         }
 
         else if (randomBomb == 1)
         {
             _bomb.SetActive(true);
+            _audioSource.Play();
             _ballonOranje.SetActive(false);
         }
 
         else
         {
+            _audioSource.Play();
             _ballonOranje.SetActive(false);
         }
     }
@@ -65,17 +73,20 @@ public class BallonClick : MonoBehaviour
         if (randomMoney == 8 || randomMoney == 4)
         {
             _money.SetActive(true);
+            _audioSource.Play();
             _ballonRed.SetActive(false);
         }
 
         else if (randomBomb == 1)
         {
             _bomb.SetActive(true);
+            _audioSource.Play();
             _ballonRed.SetActive(false);
         }
 
         else
         {
+            _audioSource.Play();
             _ballonRed.SetActive(false);
         }
     }

@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 1450930645}
   - component: {fileID: 1450930646}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: LoadGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,7 +279,7 @@ Animator:
   m_GameObject: {fileID: 1450930641}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99f59980ed1f6004ebd3f91d33a6b1a3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 290a71147a048c743b8fad24d328f3ca, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Loading.unity
+    path: Assets/Scenes/LoadingGame.unity
     guid: b891500fcfc60094dbcdf89fb4931438
   - enabled: 1
     path: Assets/Scenes/balloons.unity
     guid: 54f634998c8af234091769023f9207ba
+  - enabled: 1
+    path: Assets/Scenes/LoadingMenu.unity
+    guid: fe8117b6e04a7e849b75dfdbc3a16865
   m_configObjects: {}
