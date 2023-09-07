@@ -16,6 +16,6 @@ public class RiditBodyUp : MonoBehaviour
     {
         var speed = 1.5f;
         speed += Time.deltaTime + 0.5f;
-        _rigidbody2D.MovePosition(transform.position + Vector3.up * speed);
+        _rigidbody2D.MovePosition(transform.position + Vector3.up *speed);
     }
 }

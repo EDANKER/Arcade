@@ -1,93 +1,91 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BattonClick : MonoBehaviour
 {
+    [SerializeField] private GameObject _balloons;
     [SerializeField] private GameObject _bomb;
     [SerializeField] private GameObject _money;
-    [SerializeField] private GameObject _ballonBlue;
-    [SerializeField] private GameObject _ballonOranje;
-    [SerializeField] private GameObject _ballonRed;
+    
+    private TextMeshProUGUI mesh;
+    [SerializeField] private int num = 0;
+    
+    [SerializeField] private AudioSource audioBalloon;
+    [SerializeField] private AudioSource audioMoney;
+    [SerializeField] private AudioSource audioTimerBomb;
+    [SerializeField] private AudioSource audioBomb;
+    
+    [SerializeField] private Animator moneyAnim;
+    private static readonly int Drop = Animator.StringToHash("drop");
 
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private bool isActive = false;
+    [SerializeField] private bool isActiveBomb = false;
+    private GeneratorBomb _generator;
 
-    public void ClickRandomBlue()
+    [SerializeField] private GameObject _canvasGameOver;
+
+    
+    public void Start()
     {
-        var randomBomb = Random.Range(1, 4);
-        var randomMoney = Random.Range(2, 8);
-        
-        if (randomMoney == 8 || randomMoney == 4)
-        {
-            _money.SetActive(true);
-            _audioSource.Play();
-            _ballonBlue.SetActive(false);
-        }
-
-        else if (randomBomb == 1)
-        {
-            _bomb.SetActive(true);
-            _audioSource.Play();
-            _ballonBlue.SetActive(false);
-        }
-
-        else
-        {
-            _audioSource.Play();
-            _ballonBlue.SetActive(false);
-        }
-    }
-
-    public void ClickRandomOranje()
-    {
-        var randomBomb = Random.Range(1, 4);
-        var randomMoney = Random.Range(2, 8);
-        
-        if (randomMoney == 8 || randomMoney == 4)
-        {
-            _money.SetActive(true);
-            _audioSource.Play();
-            _ballonOranje.SetActive(false);
-        }
-
-        else if (randomBomb == 1)
-        {
-            _bomb.SetActive(true);
-            _audioSource.Play();
-            _ballonOranje.SetActive(false);
-        }
-
-        else
-        {
-            _audioSource.Play();
-            _ballonOranje.SetActive(false);
-        }
+        mesh = GetComponent<TextMeshProUGUI>();
+        _generator = FindObjectOfType<GeneratorBomb>();
     }
     
-    public void ClickRandomRed()
+    public void Active()
     {
+        mesh.text = "" + num;
+        
         var randomBomb = Random.Range(1, 4);
         var randomMoney = Random.Range(2, 8);
         
         if (randomMoney == 8 || randomMoney == 4)
         {
-            _money.SetActive(true);
-            _audioSource.Play();
-            _ballonRed.SetActive(false);
+            num++;
+            moneyAnim.SetBool(Drop, true);
+            audioBalloon.Play();
+            audioMoney.Play();
+            if (!isActive)
+            {
+                StartCoroutine(Time());
+                isActive = true;
+            }
         }
 
         else if (randomBomb == 1)
         {
-            _bomb.SetActive(true);
-            _audioSource.Play();
-            _ballonRed.SetActive(false);
+            audioTimerBomb.Play();
+            _generator.CreateBomb(transform.parent);
+            if (!isActiveBomb)
+            {
+                isActiveBomb = true;
+                StartCoroutine(TimeBomb());
+            }
         }
 
         else
         {
-            _audioSource.Play();
-            _ballonRed.SetActive(false);
+            audioBalloon.Play();
         }
+    }
+
+    IEnumerator TimeBomb()
+    {
+        yield return new WaitForSeconds(3);
+        audioBomb.Play();
+        _canvasGameOver.SetActive(true);
+        isActiveBomb = false;
+
+    }
+    IEnumerator Time()
+    {
+        yield return new WaitForSeconds(3);
+        moneyAnim.SetBool(Drop, false);
+        isActive = false;
     }
 }

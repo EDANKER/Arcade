@@ -10,6 +10,11 @@ public class LoadingAnim : MonoBehaviour
     
     public void LoadingSceneMenu()
     {
+        SceneManager.LoadScene(3);
+    }
+    
+    public void LoadingSceneMenuLoad()
+    {
         SceneManager.LoadScene(0);
     }
 }

@@ -5,24 +5,20 @@ using UnityEngine;
 
 public class TriggerPointer : MonoBehaviour
 {
-    private GeneratorLeval _generatorLeval;
+    private GeneratorLeval _generatorLevel;
+    private int _num = 0;
 
     public void Awake()
     {
-        _generatorLeval = FindObjectOfType<GeneratorLeval>();
+        _generatorLevel = FindObjectOfType<GeneratorLeval>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            _generatorLeval.CreateIamges(transform.parent);
-            Destroy(gameObject);
-        }
-    }
-
-    public void CreateButton()
-    {
-        _generatorLeval.CreateIamges(transform.parent);
+        _num++;
+        Debug.Log(_num);
+        if (!other.gameObject.CompareTag("Player") || _num < 2) return;
+        _generatorLevel.CreateIamges(transform.parent);
+        _num = 0;
     }
 }
