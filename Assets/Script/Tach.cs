@@ -5,38 +5,60 @@ using UnityEngine;
 
 public class Tach : MonoBehaviour
 {
-    private Vector3 tachPosition;
+    private float deltaX, deltaY;
     private Rigidbody2D _rigidbody2D;
-    public Vector3 discription;
-    private float moveSpeed = 10f;
-
-    private static GameObject go;
-
-    public void Start()
+    private bool move = false;
+     
+    private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+         PhysicsMaterial2D material2D = new PhysicsMaterial2D();
+        material2D.bounciness = 0.75f;
+        material2D.friction = 0.4f;
+        GetComponent<CircleCollider2D>().sharedMaterial = material2D;
     }
 
-    public void Update()
+    private void Update()
     { 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.touchCount > 0)
         {
-            Debug.Log("Hello");
             var touch = Input.GetTouch(0);
-            tachPosition = Camera.main.ScreenToWorldPoint(touch.position);
-            tachPosition.z = 0;
-            discription = (tachPosition - transform.position);
-            _rigidbody2D.velocity = new Vector2(discription.x, discription.y) * moveSpeed;
-
-            if (touch.phase == TouchPhase.Ended)
+            Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+            switch (touch.phase)
             {
-                _rigidbody2D.velocity = Vector2.zero;
+                case TouchPhase.Began:
+                    if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPos))
+                    {
+                        deltaX = touchPos.x - transform.position.x;
+                        deltaY = touchPos.y - transform.position.y;
+
+                        move = true;
+
+                        _rigidbody2D.freezeRotation = true;
+                        _rigidbody2D.velocity = new Vector2(0, 0);
+                        _rigidbody2D.gravityScale = 0;
+                        GetComponent<CircleCollider2D>().sharedMaterial = null;
+                    }
+
+                    break;
+                
+                case TouchPhase.Moved:
+                    if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPos) && move)
+                    {
+                        _rigidbody2D.MovePosition(new Vector2(touchPos.x -deltaX, touchPos.y - deltaY));
+                    }
+                    break;
+                
+                case TouchPhase.Ended:
+                    move = false;
+                    _rigidbody2D.freezeRotation = false;
+                    _rigidbody2D.gravityScale = 2;
+                    PhysicsMaterial2D material2D = new PhysicsMaterial2D();
+                    material2D.bounciness = 0.75f;
+                    material2D.friction = 0.4f;
+                    GetComponent<CircleCollider2D>().sharedMaterial = material2D;
+                    break ;
             }
         }
-    }
-
-    public void MouceDown()
-    {
-        go = gameObject;
     }
 }
