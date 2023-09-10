@@ -5,60 +5,26 @@ using UnityEngine;
 
 public class Tach : MonoBehaviour
 {
-    private float deltaX, deltaY;
-    private Rigidbody2D _rigidbody2D;
-    private bool move = false;
-     
-    private void Start()
-    {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-         PhysicsMaterial2D material2D = new PhysicsMaterial2D();
-        material2D.bounciness = 0.75f;
-        material2D.friction = 0.4f;
-        GetComponent<CircleCollider2D>().sharedMaterial = material2D;
-    }
+    private Vector2 startPos, endPos, direction;
+    private float touchTimeStart, touchTimeFinish, timeInternal;
+
+    [Range(-0.5f, 400f)] public float throwForse = 0.3f;
 
     private void Update()
-    { 
-        if (Input.touchCount > 0)
+    {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            var touch = Input.GetTouch(0);
-            Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPos))
-                    {
-                        deltaX = touchPos.x - transform.position.x;
-                        deltaY = touchPos.y - transform.position.y;
+            touchTimeStart = Time.time;
+            startPos = Input.GetTouch(0).position;
+        }
 
-                        move = true;
-
-                        _rigidbody2D.freezeRotation = true;
-                        _rigidbody2D.velocity = new Vector2(0, 0);
-                        _rigidbody2D.gravityScale = 0;
-                        GetComponent<CircleCollider2D>().sharedMaterial = null;
-                    }
-
-                    break;
-                
-                case TouchPhase.Moved:
-                    if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPos) && move)
-                    {
-                        _rigidbody2D.MovePosition(new Vector2(touchPos.x -deltaX, touchPos.y - deltaY));
-                    }
-                    break;
-                
-                case TouchPhase.Ended:
-                    move = false;
-                    _rigidbody2D.freezeRotation = false;
-                    _rigidbody2D.gravityScale = 2;
-                    PhysicsMaterial2D material2D = new PhysicsMaterial2D();
-                    material2D.bounciness = 0.75f;
-                    material2D.friction = 0.4f;
-                    GetComponent<CircleCollider2D>().sharedMaterial = material2D;
-                    break ;
-            }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            touchTimeFinish = Time.time;
+            timeInternal = touchTimeFinish - touchTimeStart;
+            endPos = Input.GetTouch(0).position;
+            direction = startPos - endPos;
+            GetComponent<Rigidbody2D>().AddForce(-direction / timeInternal * throwForse);
         }
     }
 }

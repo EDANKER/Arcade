@@ -15,9 +15,10 @@ public class BattonClick : MonoBehaviour
     [SerializeField] private GameObject _bomb;
     [SerializeField] private GameObject _money;
 
+    [FormerlySerializedAs("sumBallons")] [SerializeField] public int sumTask = 0;
+
     private TextMeshProUGUI mesh;
     [SerializeField] public int num = 0;
-    private int sum = 0;
 
     [SerializeField] private AudioSource audioBalloon;
     [SerializeField] private AudioSource audioMoney;
@@ -33,16 +34,23 @@ public class BattonClick : MonoBehaviour
 
     [SerializeField] private GameObject _canvasGameOver;
 
+    [SerializeField] private BombDetect _bombDetects1;
+    [SerializeField] private BombDetect _bombDetects2;
 
+    [SerializeField] public int sum;
+    
     public void Start()
     {
+        var random = Random.Range(10, 30);
+        sumTask = random;
+        
         mesh = GetComponent<TextMeshProUGUI>();
         _generator = FindObjectOfType<GeneratorBomb>();
     }
 
     private void Update()
     {
-        mesh.text = "" + sum;
+        mesh.text = "" + num;
     }
 
     public void ActiveBlue()
@@ -52,7 +60,11 @@ public class BattonClick : MonoBehaviour
 
         if (randomMoney == 8 || randomMoney == 4)
         {
-            sum = num + 1;
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
+            num++;
             moneyAnim.SetBool(Drop, true);
             audioBalloon.Play();
             audioMoney.Play();
@@ -65,6 +77,10 @@ public class BattonClick : MonoBehaviour
 
         else if (randomBomb == 4)
         {
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
             audioTimerBomb.Play();
             audioBalloon.Play();
             _generator.CreateBomb(transform.parent);
@@ -77,6 +93,10 @@ public class BattonClick : MonoBehaviour
 
         else
         {
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
             audioBalloon.Play();
         }
     }
@@ -88,7 +108,14 @@ public class BattonClick : MonoBehaviour
 
         if (randomMoney == 8 || randomMoney == 4)
         {
-            sum = num + 3;
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
+            for (int i = 0; i <= 3; i++)
+            {
+                num++;
+            }
             moneyAnim.SetBool(Drop, true);
             audioBalloon.Play();
             audioMoney.Play();
@@ -101,6 +128,10 @@ public class BattonClick : MonoBehaviour
 
         else if (randomBomb == 3)
         {
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
             audioTimerBomb.Play();
             audioBalloon.Play();
             _generator.CreateBomb(transform.parent);
@@ -113,6 +144,10 @@ public class BattonClick : MonoBehaviour
 
         else
         {
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
             audioBalloon.Play();
         }
     }
@@ -124,7 +159,15 @@ public class BattonClick : MonoBehaviour
 
         if (randomMoney == 8 || randomMoney == 4)
         {
-            sum = num + 5;
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
+            for (int i = 0; i <= 5; i++)
+            {
+                num++;
+            }
+
             moneyAnim.SetBool(Drop, true);
             audioBalloon.Play();
             audioMoney.Play();
@@ -137,6 +180,10 @@ public class BattonClick : MonoBehaviour
 
         else if (randomBomb == 2)
         {
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
             audioTimerBomb.Play();
             audioBalloon.Play();
             _generator.CreateBomb(transform.parent);
@@ -149,16 +196,23 @@ public class BattonClick : MonoBehaviour
 
         else
         {
+            if (sumTask != 0)
+            {
+                sumTask--;
+            }
             audioBalloon.Play();
         }
     }
 
     IEnumerator TimeBomb()
     {
-        yield return new WaitForSeconds(3);
-        audioBomb.Play();
-        _canvasGameOver.SetActive(true);
-        isActiveBomb = false;
+        yield return new WaitForSeconds(5);
+        if (!_bombDetects1.bombActive && !_bombDetects2.bombActive)
+        {
+            audioBomb.Play();
+            _canvasGameOver.SetActive(true);
+            isActiveBomb = false;
+        }
     }
 
     IEnumerator Time()

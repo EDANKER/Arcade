@@ -25,21 +25,21 @@ public class GeneratorLeval : MonoBehaviour
         maxY = random;
 
         var randomOranje = Random.Range(1, 2);
-        var randomBlue = Random.Range(3, 3);
+        var randomBlue = Random.Range(1, 2);
         var randomRed = Random.Range(1, 1);
 
         for (var i = 0; i < randomOranje; i++)
         {
             var posEnemyOranje = new Vector2(parent.position.x + Random.Range(minX, maxX),
-                parent.position.y + Random.Range(minY, maxY) + 19.2f);
+                parent.position.y + Random.Range(minY, maxX) + 19.2f);
             var canvasOranje = Instantiate(_oranje, posEnemyOranje, Quaternion.identity, _base.transform);
             canvasOranje.transform.SetParent(_canvasGame.transform, false);
         }
 
         for (var i = 0; i < randomBlue; i++)
         {
-            var posEnemyBlue = new Vector2(parent.position.x + Random.Range(minX, maxY),
-                parent.position.y + Random.Range(minY, maxY) + 19.2f);
+            var posEnemyBlue = new Vector2(parent.position.x + Random.Range(minX, maxX),
+                parent.position.y + Random.Range(minY, maxX) + 19.2f);
             var canvasBlue = Instantiate(_blue, posEnemyBlue, Quaternion.identity, _base.transform);
             canvasBlue.transform.SetParent(_canvasGame.transform, false);
         }
@@ -47,7 +47,7 @@ public class GeneratorLeval : MonoBehaviour
         for (var i = 0; i < randomRed; i++)
         {
             var posEnemyRed = new Vector2(parent.position.x + Random.Range(minX, maxX),
-                parent.position.y + Random.Range(minY, maxY) + 19.2F);
+                parent.position.y + Random.Range(minY, maxX) + 19.2F);
             var canvasRed = Instantiate(_red, posEnemyRed, quaternion.identity, _base.transform);
             canvasRed.transform.SetParent(_canvasGame.transform, false);
         }
