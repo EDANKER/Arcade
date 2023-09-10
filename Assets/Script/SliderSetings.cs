@@ -15,6 +15,10 @@ public class SliderSetings : MonoBehaviour
         {
             _slider.value = 1;
         }
+        else
+        {
+            _slider.value = PlayerPrefs.GetFloat("volume");
+        }
     }
 
     private void Update()

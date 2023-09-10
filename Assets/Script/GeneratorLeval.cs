@@ -19,13 +19,13 @@ public class GeneratorLeval : MonoBehaviour
 
     public void CreateIamges(Transform parent)
     {
-        var random = Random.Range(-1000f, -2000f);
+        var random = Random.Range(-1500f, -2000f);
 
         minY = random;
         maxY = random;
 
         var randomOranje = Random.Range(1, 2);
-        var randomBlue = Random.Range(1, 2);
+        var randomBlue = Random.Range(2, 3);
         var randomRed = Random.Range(1, 1);
 
         for (var i = 0; i < randomOranje; i++)

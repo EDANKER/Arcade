@@ -16,5 +16,5 @@ EditorBuildSettings:
     guid: 54f634998c8af234091769023f9207ba
   - enabled: 1
     path: Assets/Scenes/LoadingMenu.unity
-    guid: fe8117b6e04a7e849b75dfdbc3a16865
+    guid: 8bb0040dfde85e1428fb107f00597ac2
   m_configObjects: {}

@@ -8,7 +8,7 @@ public class Tach : MonoBehaviour
     private Vector2 startPos, endPos, direction;
     private float touchTimeStart, touchTimeFinish, timeInternal;
 
-    [Range(-0.5f, 400f)] public float throwForse = 0.3f;
+    [Range(-0.5f, 800f)] public float throwForse = 0.3f;
 
     private void Update()
     {

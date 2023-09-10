@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class BattonClick : MonoBehaviour
@@ -14,8 +11,10 @@ public class BattonClick : MonoBehaviour
     [SerializeField] private GameObject _balloonsOranje;
     [SerializeField] private GameObject _bomb;
     [SerializeField] private GameObject _money;
+    [SerializeField] private GameObject _activeBomb;
 
-    [FormerlySerializedAs("sumBallons")] [SerializeField] public int sumTask = 0;
+    [FormerlySerializedAs("sumBallons")] [SerializeField]
+    public int sumTask = 0;
 
     private TextMeshProUGUI mesh;
     [SerializeField] public int num = 0;
@@ -37,13 +36,10 @@ public class BattonClick : MonoBehaviour
     [SerializeField] private BombDetect _bombDetects1;
     [SerializeField] private BombDetect _bombDetects2;
 
-    [SerializeField] public int sum;
-    
     public void Start()
     {
-        var random = Random.Range(10, 30);
+        var random = Random.Range(50, 80);
         sumTask = random;
-        
         mesh = GetComponent<TextMeshProUGUI>();
         _generator = FindObjectOfType<GeneratorBomb>();
     }
@@ -51,6 +47,21 @@ public class BattonClick : MonoBehaviour
     private void Update()
     {
         mesh.text = "" + num;
+    }
+
+    public void Save()
+    {
+        var get = PlayerPrefs.GetInt("money");
+        var sum = num + get;
+        PlayerPrefs.SetInt("money", sum);
+    }
+
+    public void GameOver()
+    {
+        var get = PlayerPrefs.GetInt("money");
+        var sum = num + get;
+        var minus = sum - 5;
+        PlayerPrefs.SetInt("money", minus);
     }
 
     public void ActiveBlue()
@@ -64,6 +75,7 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             num++;
             moneyAnim.SetBool(Drop, true);
             audioBalloon.Play();
@@ -81,14 +93,12 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             audioTimerBomb.Play();
             audioBalloon.Play();
             _generator.CreateBomb(transform.parent);
-            if (!isActiveBomb)
-            {
-                isActiveBomb = true;
-                StartCoroutine(TimeBomb());
-            }
+            isActiveBomb = true;
+            StartCoroutine(TimeBomb());
         }
 
         else
@@ -97,6 +107,7 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             audioBalloon.Play();
         }
     }
@@ -112,10 +123,12 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             for (int i = 0; i <= 3; i++)
             {
                 num++;
             }
+
             moneyAnim.SetBool(Drop, true);
             audioBalloon.Play();
             audioMoney.Play();
@@ -132,12 +145,12 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             audioTimerBomb.Play();
             audioBalloon.Play();
-            _generator.CreateBomb(transform.parent);
             if (!isActiveBomb)
             {
-                isActiveBomb = true;
+                _generator.CreateBomb(transform.parent);
                 StartCoroutine(TimeBomb());
             }
         }
@@ -148,6 +161,7 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             audioBalloon.Play();
         }
     }
@@ -163,6 +177,7 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             for (int i = 0; i <= 5; i++)
             {
                 num++;
@@ -184,12 +199,12 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             audioTimerBomb.Play();
             audioBalloon.Play();
-            _generator.CreateBomb(transform.parent);
             if (!isActiveBomb)
             {
-                isActiveBomb = true;
+                _generator.CreateBomb(transform.parent);
                 StartCoroutine(TimeBomb());
             }
         }
@@ -200,6 +215,7 @@ public class BattonClick : MonoBehaviour
             {
                 sumTask--;
             }
+
             audioBalloon.Play();
         }
     }
@@ -210,9 +226,15 @@ public class BattonClick : MonoBehaviour
         if (!_bombDetects1.bombActive && !_bombDetects2.bombActive)
         {
             audioBomb.Play();
+            _activeBomb.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
             _canvasGameOver.SetActive(true);
             isActiveBomb = false;
         }
+
+        isActiveBomb = false;
+        _bombDetects1.bombActive = false;
+        _bombDetects2.bombActive = false;
     }
 
     IEnumerator Time()

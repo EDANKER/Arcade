@@ -11,14 +11,24 @@ public class StartHelp : MonoBehaviour
     [SerializeField] private GameObject _help3;
     [SerializeField] private GameObject _start;
     [SerializeField] private GameObject _fon;
-
     [SerializeField] private bool _isActive = false;
+
+    [SerializeField] public int idChec = 0;
     private void Update()
     {
-        if (!_isActive)
+        idChec = PlayerPrefs.GetInt("id");
+        if (idChec == 1)
         {
-            _isActive = true;
-            StartCoroutine(HelpTime());
+            if (!_isActive)
+            {
+                _isActive = true;
+                StartCoroutine(HelpTime());
+            }
+        }
+        else
+        {
+            _mainCanvas.SetActive(false);
+            _start.SetActive(true);
         }
     }
 

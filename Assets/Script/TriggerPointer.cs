@@ -17,7 +17,7 @@ public class TriggerPointer : MonoBehaviour
     {
         _num++;
         Debug.Log(_num);
-        if (!other.gameObject.CompareTag("Player") || _num < 2) return;
+        if (!other.gameObject.CompareTag("Player") || _num < 3) return;
         _generatorLevel.CreateIamges(transform.parent);
         _num = 0;
     }
